@@ -3,6 +3,7 @@ const app = express();
 const port = 5000;
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const config = require('./config/key');
 
 
@@ -10,6 +11,7 @@ const {User} = require('./models/User');
 
 // application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
 
 // application/json
 app.use(bodyParser.json());
@@ -45,16 +47,22 @@ app.post('/login', (req, res) => {
 
         // check correct password
         user.comparePassword(req.body.password, (err, isMatch) => {
-            if(!isMatch) {
-                return res.json({ loginSuccess: false, message: "이메일 또는 비밀번호가 틀렸습니다."});
+            if (!isMatch) {
+                return res.json({loginSuccess: false, message: "이메일 또는 비밀번호가 틀렸습니다."});
             }
+
+            // create Token
+            user.generateToken((err, user) => {
+                if (err) {
+                    return res.status(400).send(err);
+                }
+                res.cookie("x_auth", user.token)
+                    .status(200)
+                    .json({ loginSuccess: true, userId: user._id});
+            })
 
         })
     });
-
-
-    // create Token
-
 });
 
 app.listen(port, () => console.log(`Example app liteningon port ${port}!`));
