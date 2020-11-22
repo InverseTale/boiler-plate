@@ -1,16 +1,17 @@
 import React from 'react';
+import {FaCode} from 'react-icons/fa';
 
-function LandingPage(props) {
-
-    //
+function LandingPage() {
 
     return (
-        <div style={{
-            display: 'flex', justifyContent: 'center', alignItems: 'center',
-            width: '100%', height: '100vh'
-        }}>
-            <h2>시작 페이지</h2>
-        </div>
+        <>
+            <div className={"app"}>
+                <FaCode style={{fontSize: '4rem'}}/>
+                <br/>
+                <span style={{fontSize: '2rem'}}> Coding Part</span>
+            </div>
+            <div style={{float: 'right'}}> boiler template </div>
+        </>
     );
 }
 
