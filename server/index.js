@@ -88,4 +88,4 @@ app.get('/api/users/logout', auth, (req, res) => {
     });
 });
 
-app.listen(port, () => console.log(`Example app liteningon port ${port}!`));
+app.listen(port, () => console.log(`Example app litening on port ${port}!`));
